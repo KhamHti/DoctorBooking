@@ -12,4 +12,5 @@ yarn add @react-navigation/stack
 yarn add react-native-gesture-handler
 yarn add @react-native-masked-view/masked-view
 yarn add eslint-plugin-react-hooks@next
+yarn add react-native-linear-gradient
 ````

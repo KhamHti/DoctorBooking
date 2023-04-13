@@ -1,7 +1,7 @@
-import {View, Text, Image, StyleSheet} from 'react-native';
-import React, {useEffect} from 'react';
+import { View, Text, Image, StyleSheet } from 'react-native';
+import React, { useEffect } from 'react';
 
-const Splash = ({navigation}) => {
+const Splash = ({ navigation }) => {
   useEffect(() => {
     setTimeout(() => {
       navigation.navigate('Home');
