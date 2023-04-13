@@ -1,4 +1,4 @@
-## 
+## first 
 npm install (or) yarn insatll
 
 ## cd ios && pod install
