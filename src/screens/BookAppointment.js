@@ -171,6 +171,14 @@ const BookAppointment = ({navigation}) => {
               source={require('../images/male.png')}
               style={{width: 35, height: 35}}
             />
+            <Text
+              style={{
+                color: selectedGender === 1 ? '#000' : '#fff',
+                fontWeight: '700',
+                fontSize: 16,
+              }}>
+              Male
+            </Text>
           </TouchableOpacity>
           {/* other gender  */}
 
@@ -186,6 +194,14 @@ const BookAppointment = ({navigation}) => {
               source={require('../images/equality.png')}
               style={{width: 35, height: 35}}
             />
+            <Text
+              style={{
+                color: selectedGender === 2 ? '#000' : '#fff',
+                fontSize: 16,
+                fontWeight: '700',
+              }}>
+              Other
+            </Text>
           </TouchableOpacity>
 
           {/* female gender  */}
@@ -202,8 +218,19 @@ const BookAppointment = ({navigation}) => {
               source={require('../images/female.png')}
               style={{width: 35, height: 35}}
             />
+            <Text
+              style={{
+                color: selectedGender === 0 ? '#000' : '#fff',
+                fontSize: 16,
+                fontWeight: '700',
+              }}>
+              Female
+            </Text>
           </TouchableOpacity>
         </View>
+
+        {/* navigate to success  */}
+
         <View style={styles.btnView}>
           <BookButton
             width={300}

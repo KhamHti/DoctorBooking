@@ -86,6 +86,26 @@ const Home = ({navigation}) => {
           </View>
         </View>
       </ScrollView>
+      <View style={styles.bottonTabView}>
+        <TouchableOpacity>
+          <Image
+            source={require('../images/completed.png')}
+            style={styles.bottomIcon}
+          />
+        </TouchableOpacity>
+        <TouchableOpacity>
+          <Image
+            source={require('../images/pending.png')}
+            style={styles.bottomIcon}
+          />
+        </TouchableOpacity>
+        <TouchableOpacity>
+          <Image
+            source={require('../images/ambulance.png')}
+            style={styles.bottomIcon}
+          />
+        </TouchableOpacity>
+      </View>
     </SafeAreaView>
   );
 };
@@ -167,6 +187,23 @@ const styles = StyleSheet.create({
     fontWeight: '800',
     alignSelf: 'center',
     marginTop: 5,
+  },
+  bottonTabView: {
+    width: '90%',
+    height: 60,
+    backgroundColor: '#3C486B',
+    borderRadius: 12,
+    elevation: 10,
+    position: 'absolute',
+    bottom: 30,
+    alignSelf: 'center',
+    flexDirection: 'row',
+    justifyContent: 'space-evenly',
+    alignItems: 'center',
+  },
+  bottomIcon: {
+    width: 30,
+    height: 30,
   },
 });
 
