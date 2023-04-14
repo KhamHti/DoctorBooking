@@ -1,3 +1,4 @@
+/* eslint-disable react/no-unstable-nested-components */
 import {
   View,
   Text,
@@ -9,7 +10,7 @@ import {
   TextInput,
   ScrollView,
 } from 'react-native';
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import HeaderComponent from '../components/HeaderComponent';
 import BookButton from '../components/BookButton';
 
@@ -24,21 +25,80 @@ const aptTime = [
   '03:00PM-03:30PM',
 ];
 
-const KyoPoint = ({item, index}) => {
-  return (
-    <TouchableOpacity>
-      <Text>{item}</Text>
-    </TouchableOpacity>
-  );
-};
+// const DaysList = [];
 
 const BookAppointment = ({navigation}) => {
-  const [selectSlot, setSelectSlot] = useState(0);
-  const [selectedGender, setSelectedGender] = useState(0);
+  const [selectedGender, setSelectedGender] = useState(-1);
+  const [selectSlot, setSelectSlot] = useState(-1);
+  const [selectedDay, setSelectedDay] = useState(-1);
+  const [days, setDays] = useState([]);
+
+  useEffect(() => {
+    let DaysList = [];
+    for (let i = 1; i <= getDays(new Date().getMonth() + 1); i++) {
+      DaysList.push(i);
+      // DaysList.push({day: i, selected: false});
+    }
+    setDays(DaysList);
+  }, []);
+
+  const getDays = month => {
+    // eslint-disable-next-line no-shadow
+    let days = 0;
+    if (month === 1) {
+      days = 31;
+    } else if (month === 2) {
+      days = 28;
+    } else if (month === 3) {
+      days = 31;
+    } else if (month === 4) {
+      days = 30;
+    } else if (month === 5) {
+      days = 31;
+    } else if (month === 6) {
+      days = 30;
+    } else if (month === 7) {
+      days = 31;
+    } else if (month === 8) {
+      days = 31;
+    } else if (month === 9) {
+      days = 30;
+    } else if (month === 10) {
+      days = 31;
+    } else if (month === 11) {
+      days = 30;
+    } else if (month === 12) {
+      days = 31;
+    }
+    return days;
+  };
+
+  function KyoPoint({item, index}) {
+    return (
+      <TouchableOpacity
+        onPress={() => setSelectSlot(index)}
+        style={[
+          styles.timeSlot,
+          {
+            backgroundColor: selectSlot === index ? '#6ECCAF' : '#3C486B',
+          },
+        ]}>
+        <Text
+          style={[
+            styles.timeText,
+            {
+              color: selectSlot === index ? '#000' : '#fff',
+            },
+          ]}>
+          {item}
+        </Text>
+      </TouchableOpacity>
+    );
+  }
 
   return (
     <SafeAreaView style={styles.conatiner}>
-      <ScrollView style={styles.container}>
+      <ScrollView showsVerticalScrollIndicator={false}>
         <HeaderComponent
           icon={require('../images/back.png')}
           title={'Book Appointment'}
@@ -47,29 +107,37 @@ const BookAppointment = ({navigation}) => {
         <Image source={require('../images/doctor.png')} style={styles.docImg} />
         <Text style={styles.docName}>Doctor Kandy Molly</Text>
         <Text style={styles.docSpl}>Skin Doctor</Text>
-        <Text style={styles.heading}>Appointment Time</Text>
-        <View>
+        <Text style={styles.heading}>Select Date</Text>
+        <View style={{marginTop: 20}}>
           <FlatList
-            numColumns={2}
-            data={aptTime}
+            horizontal
+            showsHorizontalScrollIndicator={false}
+            data={days}
             renderItem={({item, index}) => {
               return (
                 <TouchableOpacity
-                  onPress={() => setSelectSlot(index)}
-                  style={[
-                    styles.timeSlot,
-                    {
-                      backgroundColor:
-                        selectSlot === index ? '#6ECCAF' : '#3C486B',
-                    },
-                  ]}>
+                  style={{
+                    width: 60,
+                    height: 60,
+                    borderRadius: 15,
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                    backgroundColor:
+                      selectedDay === index ? '#6ECCAF' : '#3C486B',
+                    marginLeft: 10,
+                  }}
+                  onPress={() => {
+                    // console.log(new Date().getDate());
+                    if (item.day < new Date().getDate()) {
+                    } else {
+                      setSelectedDay(index);
+                    }
+                  }}>
                   <Text
-                    style={[
-                      styles.timeText,
-                      {
-                        color: selectSlot === index ? '#000' : '#fff',
-                      },
-                    ]}>
+                    style={{
+                      color: selectedDay === index ? '#000' : '#fff',
+                      fontSize: 16,
+                    }}>
                     {item}
                   </Text>
                 </TouchableOpacity>
@@ -77,57 +145,74 @@ const BookAppointment = ({navigation}) => {
             }}
           />
         </View>
+        <Text style={styles.heading}>Available Slot</Text>
+        <View>
+          <FlatList
+            numColumns={2}
+            data={aptTime}
+            renderItem={({item, index}) => KyoPoint({item, index})}
+          />
+        </View>
         <Text style={styles.heading}>Patient Name</Text>
         <TextInput placeholder="Enter Name" style={styles.inputPatientName} />
         <Text style={styles.heading}>Select Gender</Text>
         <View style={styles.genderView}>
-          <TouchableOpacity
-            onPress={() => {
-              setSelectedGender(0);
-            }}
-            style={[
-              styles.gender,
-              {borderColor: selectedGender === 0 ? 'blue' : '#3C486B'},
-            ]}>
-            <Image
-              source={require('../images/male.png')}
-              style={{width: 35, height: 35}}
-            />
-          </TouchableOpacity>
+          {/* male gender  */}
+
           <TouchableOpacity
             onPress={() => {
               setSelectedGender(1);
             }}
             style={[
               styles.gender,
-              {borderColor: selectedGender === 1 ? '#3C486B' : 'blue'},
+              {backgroundColor: selectedGender === 1 ? '#6ECCAF' : '#3C486B'},
             ]}>
+            <Image
+              source={require('../images/male.png')}
+              style={{width: 35, height: 35}}
+            />
+          </TouchableOpacity>
+          {/* other gender  */}
+
+          <TouchableOpacity
+            onPress={() => {
+              setSelectedGender(2);
+            }}
+            style={[
+              styles.gender,
+              {backgroundColor: selectedGender === 2 ? '#6ECCAF' : '#3C486B'},
+            ]}>
+            <Image
+              source={require('../images/equality.png')}
+              style={{width: 35, height: 35}}
+            />
+          </TouchableOpacity>
+
+          {/* female gender  */}
+
+          <TouchableOpacity
+            style={[
+              styles.gender,
+              {backgroundColor: selectedGender === 0 ? '#6ECCAF' : '#3c486b'},
+            ]}
+            onPress={() => {
+              setSelectedGender(0);
+            }}>
             <Image
               source={require('../images/female.png')}
               style={{width: 35, height: 35}}
             />
           </TouchableOpacity>
-          {/* <TouchableOpacity
-          onPress={() => {
-            setSelectedGender(1);
-          }}
-          style={[
-            styles.gender,
-            {borderColor: selectedGender === 1 ? 'blue' : '#3C486B'},
-          ]}>
-          <Image
-            source={require('../images/male.png')}
-            style={{width: 35, height: 35}}
-          />
-        </TouchableOpacity> */}
         </View>
-        <BookButton
-          width={200}
-          height={45}
-          title={'Book Now'}
-          onClick={() => navigation.navigate('BookingSuccess')}
-          status={true}
-        />
+        <View style={styles.btnView}>
+          <BookButton
+            width={300}
+            height={45}
+            title={'Book Now'}
+            onClick={() => navigation.navigate('BookingSuccess')}
+            status={true}
+          />
+        </View>
       </ScrollView>
     </SafeAreaView>
   );
@@ -193,18 +278,21 @@ const styles = StyleSheet.create({
     borderColor: '#3C486B',
   },
   genderView: {
-    marginTop: 0,
+    marginTop: 10,
     justifyContent: 'space-evenly',
     flexDirection: 'row',
     alignItems: 'center',
   },
   gender: {
-    width: 60,
+    width: 70,
     height: 60,
     borderRadius: 15,
     justifyContent: 'center',
     alignItems: 'center',
     borderWidth: 1,
+  },
+  btnView: {
+    marginVertical: 40,
   },
 });
 
