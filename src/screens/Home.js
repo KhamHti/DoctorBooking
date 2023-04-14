@@ -87,19 +87,28 @@ const Home = ({navigation}) => {
         </View>
       </ScrollView>
       <View style={styles.bottonTabView}>
-        <TouchableOpacity>
+        <TouchableOpacity
+          onPress={() => {
+            navigation.navigate('Completed');
+          }}>
           <Image
             source={require('../images/completed.png')}
             style={styles.bottomIcon}
           />
         </TouchableOpacity>
-        <TouchableOpacity>
+        <TouchableOpacity
+          onPress={() => {
+            navigation.navigate('Pending');
+          }}>
           <Image
             source={require('../images/pending.png')}
             style={styles.bottomIcon}
           />
         </TouchableOpacity>
-        <TouchableOpacity>
+        <TouchableOpacity
+          onPress={() => {
+            navigation.navigate('CallAmbulance');
+          }}>
           <Image
             source={require('../images/ambulance.png')}
             style={styles.bottomIcon}
